@@ -1,0 +1,53 @@
+Blood Alcohol Content (BAC) Calculator
+========================================================
+transition: rotate
+"Developing Data Products" / Coursera Project
+
+
+Why Use This Application?
+========================================================
+- My application tries to show the prolongated effect of alcohol drinking on health and ability to drive safely.
+
+- **BAC** is used as a metric for visualizing "Don't drink and drive" slogan via graph plotting percentage of alcohol in blood as a function of time.
+
+
+About BAC
+========================================================
+Blood Alcohol Content (BAC) is a metric of alcoholic intoxication which is defined as:
+<center>
+$BAC = \frac{0.806 \cdot SD \cdot 1.2}{BW \cdot Wt} - (MR \cdot DP)$
+</center>
+where 
+- **SD** - Standard Drinks 
+- **BW** - Body Water constant <small>(0.58 for men, 0.49 for women)</small>
+- **Wt** - Body Weight (kg)
+- **MR** - Metabolism Rate <small>(0.015 for men, 0.017for women)</small>
+- **DP** - Drinking Period (hrs)
+
+
+BAC Level Degradation over Time
+========================================================
+* BAC level for male person with weight of 70 kg after drinking 6 cans of beer
+* It can be seen that at least 9 hours is required to reduce the intoxication to zero level:
+
+```{r, echo=FALSE}
+library(ggplot2)
+hrs <- seq(0, 12, 0.5)
+bac <- function(x) {
+    res = (0.806 * 6 * 1.2) / (0.58 * 70) - (0.015 * x)
+    if (res < 0) 0 else res
+}
+df <- data.frame(Hours = hrs, BAC = sapply(hrs, bac))
+ggplot(df, aes(x = Hours, y = BAC)) + geom_line() + 
+    xlab("Hours") +
+    ylab("BAC (%)")
+```
+
+
+Where to Find
+======================================================== 
+* Shiny App: http://alexeq.shinyapps.io/bac-calculator
+* Github sources: https://github.com/alexeq/devdataprod
+![Shiny app screenshot](ShinyApp.png)
+* *Don't Drink and Drive!*
+
